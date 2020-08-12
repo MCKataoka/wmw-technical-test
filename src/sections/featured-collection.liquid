@@ -7,87 +7,6 @@
 {% endcomment %}
 
 <section class="featured-collection" data-section-id="{{ section.id }}" data-section-type="featured-collection">
-  <script>
-      // adding the swiper js script and stylinng
-      var script = document.createElement('script');
-      script.type = 'text/javascript';
-      script.src = 'https://unpkg.com/swiper/swiper-bundle.js';    
-
-      var link = document.createElement('link');
-      link.rel = 'stylesheet';
-      link.href = 'https://unpkg.com/swiper/swiper-bundle.min.css';  
-
-      document.querySelector('head').appendChild(script);
-      document.querySelector('head').appendChild(link);
-
-      // a function that waits before an element appears before executing a function
-      var waitForElement = function(element, cb){
-          var time = setInterval(function(){
-              if(document.querySelector(element)){
-                  clearInterval(time);
-                  cb();
-              }
-          }, 100);       
-
-      }
-
-    //The new instance of Swiper had a timing issue. The script took too long to load
-      // so I start the instance after some time has passed to allow the script to run
-
-      setTimeout(function(){
-          //Starting a new instance of Swiper
-          var mySwiper = new Swiper('.swiper-container', {
-              direction: 'horizontal',
-              loop: true,
-              slidesPerView: 1,
-              pagination: {
-                  el: '.swiper-pagination',
-                  clickable: true
-              },
-              breakpoints: {
-                  768: {
-                      slidesPerView: 2,
-                      spaceBetweenSlides: 22
-                  },
-                  1024: {
-                      slidesPerView: 3,
-                      spaceBetweenSlides: 22
-                  },
-                  1328: {
-                      slidesPerView: 4,
-                      spaceBetweenSlides: 22
-                  }
-              },
-              navigation: {
-                  nextEl: '.swiper-button-next',
-                  prevEl: '.swiper-button-prev',
-              }
-          });
-      },700);
-
-      // This function is checking what products are on sale
-          //if the product is on sale then it will clean the pricing string to only have the price
-          //and it also inserts the 'sale' tag in the top right of the image
-          
-      waitForElement('.product-card__name-price span', function(){
-          var prices = document.querySelectorAll('.product-card__name-price span');
-          for(var i = 0; i < prices.length; i++){
-              if(prices[i].innerHTML.indexOf('Sale') > -1){
-                  if(prices[i].innerHTML.indexOf('from') > -1){
-                      prices[i].innerHTML = prices[i].innerHTML.split("from").pop();
-                  } else{
-                      prices[i].innerHTML = prices[i].innerHTML.split("Sale").pop();
-                  }
-              }
-          }
-          var products = document.querySelectorAll('.product-card__sale');
-          for(var i = 0; i < products.length; i++){
-              products[i].querySelector('div.sale').insertAdjacentHTML('afterbegin', '<div class="button__sale">Sale</div>');
-          }
-
-      });
-</script>
-
   {%- assign collection = collections[section.settings.collection] -%}
 
   <div class="container">
@@ -125,10 +44,10 @@
                                       {% if product.featured_image != blank %}
                                           {{ product.featured_image | img_url: 'large' | img_tag }}
                                       {% endif %}
-                                  </div>
-                                  <span class="product-card__add-to-cart" data-quantity="1" data-variant-id="{{ current_variant.id }}" js-ajax-cart="addToCart">
-                                      Add to cart
-                                  </span>
+                                    <span class="product-card__add-to-cart" data-quantity="1" data-variant-id="{{ current_variant.id }}" js-ajax-cart="addToCart">
+                                        Add to cart
+                                    </span>
+                                </div>
                               </div>
 
                               <div class="product-card__name-price">
