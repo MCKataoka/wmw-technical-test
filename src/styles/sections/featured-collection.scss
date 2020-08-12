@@ -31,7 +31,7 @@
     font-family: $FONT_BODY;
     color: $COLOR_TEXT_LIGHT_SECONDARY;
     font-size: 14px;
-    font-weight: 300;
+    font-weight: $WEIGHT_LIGHT;
     letter-spacing: 0;
     line-height: 21px;
     &.subheading {
@@ -68,10 +68,6 @@
         left: 50%;
         display: block;
         transform: translateX(-50%);
-        &:hover {
-          background-color: $COLOR_BUTTON_HOVER;
-          color: $COLOR_TEXT_INVERSE;
-        }
       }
     }
     text-decoration: none;
@@ -92,7 +88,7 @@
 
     span {
       color: $COLOR_TEXT_LIGHT_SECONDARY;
-      font-weight: 300;
+      font-weight: $WEIGHT_LIGHT;
     }
 
     img {
