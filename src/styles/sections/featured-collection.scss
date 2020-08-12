@@ -21,7 +21,7 @@
     font-family: $FONT_HEADING;
     color: $COLOR_TERTIARY;
     font-size: 24px;
-    font-weight: bold;
+    font-weight: $WEIGHT_BOLD;
     letter-spacing: 0;
     line-height: 29px;
   }
@@ -59,7 +59,7 @@
         position: absolute;
         bottom: 18px;
         font-family: $FONT_DISPLAY;
-        font-weight: bold;
+        font-weight: $WEIGHT_BOLD;
         background-color: $COLOR_TEXT_INVERSE;
         color: $COLOR_BUTTON_TEST;
         text-align: center;
@@ -76,7 +76,7 @@
     span {
       color: $COLOR_TERTIARY;
       font-size: 18px;
-      font-weight: bold;
+      font-weight: $WEIGHT_BOLD;
       letter-spacing: 0;
       line-height: 26px;
       text-align: left;
@@ -107,7 +107,7 @@
       color: $COLOR_TEXT_INVERSE;
       font-family: $FONT_DISPLAY;
       font-size: 14px;
-      font-weight: bold;
+      font-weight: $WEIGHT_BOLD;
       letter-spacing: 0;
       line-height: 17px;
       text-align: center;
