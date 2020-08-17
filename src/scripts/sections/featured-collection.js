@@ -40,8 +40,34 @@ var waitForElement = function(element, cb) {
   }, 100);
 };
 
+// a function to replace the addEventListener functionality
+
+var events = [];
+
+var on = function(type, selector, cb) {
+  if (-1 < events.indexOf([type, selector, cb].toString())) {
+    return;
+  }
+  events.push([type, selector, cb].toString());
+  window.addEventListener(type, function(event) {
+    var target = event.target.closest(selector);
+
+    if (null === target) {
+      return;
+    }
+    var callback = cb.bind(target);
+
+    callback(event);
+  });
+};
+
 //The new instance of Swiper had a timing issue. The script took too long to load
 // so I start the instance after some time has passed to allow the script to run
+
+var s = document.createElement("script");
+s.type = "text/javascript";
+s.src = "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js";
+document.querySelector("head").appendChild(s);
 
 //Starting a new instance of Swiper
 var mySwiper = new Swiper(".swiper-container", {
@@ -93,4 +119,64 @@ waitForElement(".product-card__name-price span", function() {
       .querySelector("div.sale")
       .insertAdjacentHTML("afterbegin", '<div class="button__sale">Sale</div>');
   }
+});
+
+// This function is adding items to the cart when the user clicks the "add to cart button"
+
+waitForElement(".product-card__add-to-cart", function() {
+  var item = {
+    id: 15928763482201,
+    quantity: 1
+  };
+  on("click", ".product-card__add-to-cart", function(e) {
+    e.preventDefault();
+    item.id = e.target.getAttribute("data-variant-id");
+
+    // This is grabbing the img src and the name of the item for the order confirmend pop up
+    var image = e.target.previousElementSibling.src;
+    var copy = e.target.parentElement.parentElement.nextElementSibling.querySelector(
+      "p"
+    ).innerHTML;
+
+    fetch("/cart/add.js", {
+      body: JSON.stringify(item),
+
+      headers: {
+        "Content-Type": "application/json"
+      },
+      method: "POST"
+    })
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function() {
+        // once the order is added to the cart then a small pop up should appear in the bottom left
+        document.querySelector(".order-confirmation img").src = image;
+        document.querySelector(".order-confirmation p span").innerHTML = copy;
+        document.querySelector(".order-confirmation").classList.remove("hide");
+
+        // once the order is added to the cart then add one number to the cart in the top right
+        var regex = /\d+/g;
+        var string = document.querySelector(".site-header__cart").innerText;
+        var matches = string.match(regex);
+        var svgImg = document.querySelector(".site-header__cart svg.icon");
+
+        var replace = parseInt(matches) + 1;
+        document.querySelector(".site-header__cart").innerText = string.replace(
+          matches,
+          replace.toString()
+        );
+        document.querySelector(".site-header__cart").innerHTML =
+          svgImg.outerHTML + string.replace(matches, replace.toString());
+      })
+      .catch(function(err) {
+        console.error(err);
+      });
+  });
+});
+
+waitForElement(".order-confirmation__close", function() {
+  on("click", ".order-confirmation__close", function(e) {
+    document.querySelector(".order-confirmation").classList.add("hide");
+  });
 });

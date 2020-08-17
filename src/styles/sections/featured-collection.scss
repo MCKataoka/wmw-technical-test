@@ -4,14 +4,109 @@
  * Base styling for the featured collection product grid.
  *
  */
-.desktop {
+.desktop,
+.hide {
   display: none !important;
 }
 .mobile {
   display: flex !important;
 }
 
+/* Animation that causes the pop up in the bottom left to slide up */
+
+@mixin keyframes($animation-name) {
+  @-webkit-keyframes #{$animation-name} {
+    @content;
+  }
+  @-moz-keyframes #{$animation-name} {
+    @content;
+  }
+  @-ms-keyframes #{$animation-name} {
+    @content;
+  }
+  @-o-keyframes #{$animation-name} {
+    @content;
+  }
+  @keyframes #{$animation-name} {
+    @content;
+  }
+}
+
+@mixin animation($str) {
+  -webkit-animation: #{$str};
+  -moz-animation: #{$str};
+  -ms-animation: #{$str};
+  -o-animation: #{$str};
+  animation: #{$str};
+}
+
+@include keyframes(slide-up) {
+  0% {
+    opacity: 0;
+    bottom: -250px;
+  }
+  100% {
+    opacity: 1;
+    bottom: 0;
+  }
+}
+
 .featured-collection {
+  /* Pop up styling */
+  .order-confirmation {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.3);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 2;
+    .order-confirmation__box {
+      text-align: center;
+      max-width: 270px;
+      width: 100%;
+      margin: 0 auto;
+      background-color: white;
+      display: inline-block;
+      z-index: 2;
+      top: 20%;
+      bottom: inherit;
+      right: inherit;
+      left: 50%;
+      transform: translateX(-50%);
+      position: fixed;
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.11), 0 1px 2px rgba(0, 0, 0, 0.11),
+        0 1px 4px rgba(0, 0, 0, 0.11), 0 1px 8px rgba(0, 0, 0, 0.11),
+        0 1px 16px rgba(0, 0, 0, 0.11), 0 1px 32px rgba(0, 0, 0, 0.11);
+      h1 {
+        text-align: center;
+        font-family: $FONT_HEADING;
+        color: $COLOR_TERTIARY;
+        font-size: 24px;
+        font-weight: $WEIGHT_BOLD;
+        letter-spacing: 0;
+        line-height: 29px;
+      }
+      p {
+        width: 60%;
+        display: inline-block;
+        vertical-align: top;
+        span {
+          color: $COLOR_TERTIARY;
+        }
+      }
+      img {
+        width: 30%;
+      }
+      .order-confirmation__close {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        cursor: pointer;
+      }
+    }
+  }
+
   background-color: $COLOR_BACKGROUND_WHITE;
   /**
       These two classes are for hiding and displaying things in desktop or mobile
@@ -68,6 +163,15 @@
         left: 50%;
         display: block;
         transform: translateX(-50%);
+        &:hover {
+          background-color: $COLOR_BUTTON_HOVER;
+          color: $COLOR_TEXT_INVERSE;
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        &:active {
+          transform: translate(-50%, 3px);
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
       }
     }
     text-decoration: none;
@@ -173,6 +277,31 @@
       &.subheading {
         max-width: 590px;
         margin: 0 auto 41px;
+      }
+    }
+    .order-confirmation {
+      max-width: 350px;
+      top: inherit;
+      bottom: 0;
+      right: 0;
+      left: inherit;
+      height: inherit;
+      background-color: rgba(0, 0, 0, 0);
+      .order-confirmation__box {
+        text-align: center;
+        max-width: 350px;
+        margin: 0 auto;
+        background-color: white;
+        display: inline-block;
+        z-index: 2;
+        top: inherit;
+        bottom: 0;
+        right: 0;
+        left: inherit;
+        transform: translateX(0);
+      }
+      .fadeIn {
+        @include animation("slide-up .5s ease-out");
       }
     }
     .button__view-collection {

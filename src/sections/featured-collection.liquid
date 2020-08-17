@@ -7,6 +7,16 @@
 {% endcomment %}
 
 <section class="featured-collection" data-section-id="{{ section.id }}" data-section-type="featured-collection">
+    <!-- Pop Up that shows up when a user adds an item to the cart -->
+    <div class="order-confirmation hide">
+        <div class="order-confirmation__box fadeIn">
+            <span class="order-confirmation__close">X</span>
+            <h1>Order Confirmed</h1>
+            <p>We have added <span class="order-confirmation__time"></span> to your cart</p>
+            <img class="order-confirmation__img" src="https://cdn.shopify.com/s/files/1/0065/8240/3161/products/10746_25684-23831_900x_43ac0852-a13d-4f4e-bc82-ffbda8f2ac96_large.jpg?v=1539859260"/>
+        </div>
+    </div>
+    
   {%- assign collection = collections[section.settings.collection] -%}
 
   <div class="container">
